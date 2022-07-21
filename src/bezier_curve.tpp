@@ -54,11 +54,11 @@ Bezier::Curve_<T, DEGREE_, DIMS_>::~Curve_(){
  * @param out 
  */
 template <typename T, int DEGREE_, unsigned int DIMS_>
-void Bezier::Curve_<T, DEGREE_, DIMS_>::at(const double t, Eigen::Matrix<T, DIMS_, 1>& out) const{
+void Bezier::Curve_<T, DEGREE_, DIMS_>::at(const double t, Eigen::Matrix<T, DIMS_, 1>& out, const numeric::Factorial<T, DEGREE_>& factorial) const{
 	for(unsigned int dim=0; dim<DIMS_; dim++){
 		T res = (T) 0.;
 		for(unsigned int i=0; i<this->size; i++){
-			res += this->factorials[this->size-1] / (this->factorials[i] * this->factorials[this->size - 1 - i]) * 
+			res += factorial[this->size-1] / (factorial[i] * factorial[this->size - 1 - i]) * 
 				std::pow(t, i) * std::pow(1.-t, this->size - 1 - i) * this->points(i, dim);
 		}
 		out[dim] = res;
