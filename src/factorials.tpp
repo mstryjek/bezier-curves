@@ -3,13 +3,16 @@
  * @author your name (you@domain.com)
  * @brief 
  * @version 0.1
- * @date 2022-07-20
+ * @date 2022-07-21
  * 
  * @copyright Copyright (c) 2022
  * 
  */
 
-#include "bezier_curves/factorials.h"
+#pragma once
+
+#include "bezier_curves/factorials.hpp"
+
 
 
 /**
@@ -18,8 +21,10 @@
  * @tparam T 
  * @tparam MAX_ 
  */
-template <typename T, int MAX_, TEMPLATE_EIGEN_COMAPTIBLE(MAX_), TEMPLATE_NUMERIC(T)>
+template <typename T, int MAX_>
 Bezier::numeric::Factorial<T, MAX_>::Factorial(void): factorials_(Eigen::Matrix<T, MAX_, 1>(MAX_, 1)){
+	TEMPLATE_ARITHMETIC(T)
+	TEMPLATE_EIGEN_COMPATIBLE(MAX_)
 	// Initialize the factorials vector with pre-calculated factorials
 	// This way object constructor is O(n), but every subsequent factorial 'computation' (object index access) is O(1)
 	this->factorials_[0] = (T) 1;
@@ -36,10 +41,9 @@ Bezier::numeric::Factorial<T, MAX_>::Factorial(void): factorials_(Eigen::Matrix<
  * @tparam T 
  * @tparam MAX_ 
  */
-template <typename T, int MAX_, TEMPLATE_EIGEN_COMAPTIBLE(MAX_), TEMPLATE_NUMERIC(T)>
+template <typename T, int MAX_>
 Bezier::numeric::Factorial<T, MAX_>::~Factorial(void){
 }
-
 
 /**
  * @brief 
@@ -49,7 +53,9 @@ Bezier::numeric::Factorial<T, MAX_>::~Factorial(void){
  * @param index 
  * @return T 
  */
-template <typename T, int MAX_, TEMPLATE_EIGEN_COMAPTIBLE(MAX_), TEMPLATE_NUMERIC(T)>
+template<typename T, int MAX_>
 T Bezier::numeric::Factorial<T, MAX_>::operator[](const unsigned int index) const{
+	if(index >= MAX_)
+		throw std::out_of_range("Invalid index access!");
 	return this->factorials_[index];
 }
