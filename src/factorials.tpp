@@ -22,14 +22,16 @@
  * @tparam MAX_ 
  */
 template <typename T, int MAX_>
-Bezier::numeric::Factorial<T, MAX_>::Factorial(void): factorials_(Eigen::Matrix<T, MAX_, 1>(MAX_, 1)){
+Bezier::numeric::Factorial<T, MAX_>::Factorial(const unsigned int size = 1) 
+	: factorials_(Eigen::Matrix<T, MAX_, 1>(selectSize(DEGREE_, size), 1)), 
+	size(selectSize(DEGREE_, size)){
 	TEMPLATE_ARITHMETIC(T)
-	TEMPLATE_EIGEN_COMPATIBLE(MAX_)
+	TEMPLATE_SIZE_OR_EIGEN_DYNAMIC(size, MAX_)
 	// Initialize the factorials vector with pre-calculated factorials
 	// This way object constructor is O(n), but every subsequent factorial 'computation' (object index access) is O(1)
 	this->factorials_[0] = (T) 1;
 
-	for(unsigned int i=1; i<MAX_; i++){
+	for(unsigned int i=1; i<this->size; i++){
 		this->factorials_[i] = (T) this->factorials_[i-1] * i;
 	}
 
@@ -55,7 +57,7 @@ Bezier::numeric::Factorial<T, MAX_>::~Factorial(void){
  */
 template<typename T, int MAX_>
 T Bezier::numeric::Factorial<T, MAX_>::operator[](const unsigned int index) const{
-	if(index >= MAX_)
+	if(index >= this->size)
 		throw std::out_of_range("Invalid index access!");
 	return this->factorials_[index];
 }

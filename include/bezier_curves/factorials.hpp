@@ -10,6 +10,7 @@
 #include <Eigen/Dense>
 
 #include "templates.hpp"
+#include "numeric.hpp"
 
 namespace Bezier::numeric{
 
@@ -23,10 +24,10 @@ namespace Bezier::numeric{
 	class Factorial{
 		private:
 			Eigen::Matrix<T, MAX_, 1> factorials_;
-
+			const unsigned int size;
 		public:
-			Factorial(void);
-			~Factorial(void);
+			Factorial(const unsigned int = 1);
+			~Factorial();
 			T operator[](const unsigned int) const;
 	};
 
