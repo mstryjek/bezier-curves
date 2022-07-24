@@ -25,8 +25,10 @@ namespace Bezier::numeric{
 		private:
 			Eigen::Matrix<T, MAX_, 1> factorials_;
 			const unsigned int size;
+			void init_(void);
 		public:
-			Factorial(const unsigned int = 1);
+			Factorial(const unsigned int);
+			Factorial(void);
 			~Factorial();
 			T operator[](const unsigned int) const;
 	};

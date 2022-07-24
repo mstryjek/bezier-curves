@@ -14,5 +14,6 @@
 #include <Eigen/Core>
 
 namespace Bezier::numeric{
-	int selectSize(int, unsigned int);
+	int selectSize(const int, const unsigned int);
+	Eigen::Matrix<long int, Eigen::Dynamic, Eigen::Dynamic> getMinv(const unsigned int);
 }

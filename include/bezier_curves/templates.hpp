@@ -15,3 +15,4 @@
 #define TEMPLATE_EIGEN_COMPATIBLE(V)           std::static_assert(V > 1 || V == Eigen::Dynamic, "Invalid matrix dimensionality!");
 #define TEMPLATE_SIZE_OR_EIGEN_DYNAMIC(V1, V2) std::static_assert((V1 > 1 && V2 == Eigen::Dynamic) || (V2 > 1), "Invalid template size or dynamic size!");
 #define TEMPLATE_NONZERO(V)                    std::static_assert(V != 0, "Template parameter must be positive!");
+#define TEMPLATE_SIZE_V(V)                     std::static_assert(V > 1, "Size template parameter must be greater than 1!");

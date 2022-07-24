@@ -11,7 +11,14 @@
 #include "bezier_curves/numeric.hpp"
 
 
-int Bezier::numeric::selectSize(int compileTimeOrDynamic, unsigned int runtime){
+/**
+ * @brief 
+ * 
+ * @param compileTimeOrDynamic 
+ * @param runtime 
+ * @return int 
+ */
+int Bezier::numeric::selectSize(const int compileTimeOrDynamic, const unsigned int runtime){
 	if(compileTimeOrDynamic == Eigen::Dynamic) return runtime;
 	return compileTimeOrDynamic;
 }

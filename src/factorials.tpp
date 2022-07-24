@@ -22,20 +22,50 @@
  * @tparam MAX_ 
  */
 template <typename T, int MAX_>
-Bezier::numeric::Factorial<T, MAX_>::Factorial(const unsigned int size = 1) 
-	: factorials_(Eigen::Matrix<T, MAX_, 1>(selectSize(DEGREE_, size), 1)), 
-	size(selectSize(DEGREE_, size)){
+Bezier::numeric::Factorial<T, MAX_>::Factorial(const unsigned int size) 
+	: factorials_(Eigen::Matrix<T, MAX_, 1>(selectSize(DEGREE_, size), 1)), size(selectSize(DEGREE_, size))
+{
 	TEMPLATE_ARITHMETIC(T)
 	TEMPLATE_SIZE_OR_EIGEN_DYNAMIC(size, MAX_)
-	// Initialize the factorials vector with pre-calculated factorials
-	// This way object constructor is O(n), but every subsequent factorial 'computation' (object index access) is O(1)
+
+	this->init_();
+}
+
+
+/**
+ * @brief
+ * 
+ * @tparam T 
+ * @tparam MAX_ 
+ */
+template <typename T, int MAX_>
+Bezier::numeric::Factorial<T, MAX_>::Factorial(void)
+	: factorials_(Eigen::Matrix<T, MAX_, 1>(DEGREE_, 1)), size(DEGREE_)
+{
+	TEMPLATE_ARITHMETIC(T)
+	TEMPLATE_SIZE_V(MAX_)
+
+	this->init_();
+}
+
+
+/**
+ * @brief Initialize the factorials vector with pre-calculated factorials.
+ * This way object constructor is O(n), but every subsequent factorial 'computation' (object index access) is O(1)
+ * 
+ * @tparam T 
+ * @tparam MAX_ 
+ */
+template <typename T, int MAX_>
+void Bezier::numeric::Factorial<T, MAX_>::init_(void){
+
 	this->factorials_[0] = (T) 1;
 
 	for(unsigned int i=1; i<this->size; i++){
 		this->factorials_[i] = (T) this->factorials_[i-1] * i;
 	}
-
 }
+
 
 /**
  * @brief Destroy the Bezier::numeric::Factorial<T, MAX_>::Factorial object
