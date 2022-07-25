@@ -15,9 +15,9 @@ namespace Bezier::numeric{
 
 
 	/**
-	 * @brief 
+	 * @brief Abstract class for any object with operator[] defined for unsigned int indices.
 	 * 
-	 * @tparam T 
+	 * @tparam T Any typename, though in derived classes this may be restricted to a subset of typenames.
 	 */
 	template <typename T>
 	class IIndexable{
@@ -43,11 +43,14 @@ namespace Bezier::numeric{
 	};
 
 
-	template <typename T>
+	template <typename T, unsigned int SIZE>
 	TMAT getMinv(const unsigned int);
 
 	template <typename T>
 	T dist(const TVEC&, const TVEC);
+
+	template <typename T>
+	T magnitude(const TVEC&);
 
 }
 

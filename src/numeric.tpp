@@ -70,14 +70,27 @@ T Bezier::numeric::Factorial<T, MAX_>::operator[](const unsigned int index) cons
  * @brief 
  * 
  * @tparam T 
- * @param size 
+ * @tparam DEGREE_ 
  * @return TMAT 
  */
-template <typename T>
-TMAT Bezier::numeric::getMinv(const unsigned int size){
+template <typename T, unsigned int DEGREE_>
+TMAT Bezier::numeric::getMinv(){
 	TEMPLATE_ARITHMETIC(T)
+	TEMPLATE_NONZERO(DEGREE_)
 
-	// TODO Math + function
+	Factorial<long unsigned int, DEGREE_+1> factorials;
+
+	TMAT M = TMAT::Zero(DEGREE_+1, DEGREE_+1);
+
+	for(unsigned int i=0; i<=DEGREE_; i++){
+		T rowFac = factorials[DEGREE_] / (T)(factorials[DEGREE_ - i] * factorials[i]);
+		for(unsigned int j=0; j<=DEGREE_-i; j++){
+			short int mul = (k + 1 + n)%2 == 0 ? 1 : -1;
+			M(i, j) = rowFac * mul * factorials[DEGREE_-i] / (T)(factorials[DEGREE_ - i - j] * factorials[j]);
+		}
+	}
+
+	return M.inverse();
 }
 
 
@@ -99,5 +112,28 @@ T dist(const TVEC& start, const TVEC& end){
 		distance += (end[i] - start[i])*(end[i] - start[i]);
 	}
 	return std::sqrt(distance);
+
+}
+
+
+/**
+ * @brief 
+ * 
+ * @tparam T 
+ * @param vec 
+ * @return T 
+ */
+template <typename T>
+T magnitude(const TVEC& vec){
+	TEMPLATE_ARITHMETIC(T)
+	ASSERT_NONZERO(vec.rows())
+
+	T ssum = (T) 0.;
+
+	for(unsigned int i=0; i<vec.rows(); i++){
+		ssum += vec[i] * vec[i];
+	}
+
+	return (T) std::sqrt(ssum);
 
 }

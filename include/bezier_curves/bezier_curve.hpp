@@ -1,5 +1,5 @@
 /**
- * @file bezier_curve.h
+ * @file bezier_curve.hpp
  * @author your name (you@domain.com)
  * @brief 
  * @date 2022-07-19
@@ -25,11 +25,10 @@ namespace Bezier{
 	 * @tparam T 
 	 */
 	template <typename T>
-	class ICurve{
+	class IBaseBezierCurve{
 		public:
 			virtual void at(const double, TVEC&) const = 0;
-			virtual void point(const unsigned int, TVEC&) const = 0;
-			virtual TMAT* getPoints(void) const = 0;
+			virtual TMAT* getControlPoints(void) const = 0;
 	};
 
 
@@ -41,16 +40,18 @@ namespace Bezier{
 	 * @tparam DIMS_ 
 	 */
 	template <typename T, unsigned int DEGREE_, unsigned int DIMS_>
-	class DerivativeBezierCurve : public virtual ICurve<T>{
+	class DerivativeBezierCurve : public virtual IBaseBezierCurve<T>{
 		private:
-			TMAT points;
+			TMAT controlPoints;
 			const numeric::IIndexable<T>* const factorials;
 		public:
 			DerivativeBezierCurve(const TMAT&, const numeric::IIndexable<T>* const);
 			~DerivativeBezierCurve();
+
+			void controlPoint(const unsigned int i, TVEC& out) const {out = this->controlPoints.row(i);}
+
 			virtual void at(const double, TVEC&) const override;
-			virtual void point(const unsigned int, TVEC&) const override;
-			virtual TMAT* getPoints(void) const override {return &this->points;}
+			virtual TMAT* getControlPoints(void) const override {return &(this->controlPoints);}
 	};
 
 
@@ -62,10 +63,10 @@ namespace Bezier{
 	 * @tparam DIMS_ 
 	 */
 	template <typename T, unsigned int DEGREE_, unsigned int DIMS_>
-	class BezierCurve : public virtual ICurve<T>{
+	class BezierCurve : public virtual IBaseBezierCurve<T>{
 		private:
-			TMAT points;
-			ICurve<T>* firstOrderDerivative, secondOrderDerivative;
+			TMAT controlPoints;
+			IBaseBezierCurve<T> *firstOrderDerivative, *secondOrderDerivative;
 			numeric::Factorial<long unsigned int, DEGREE_+1>* const factorials;
 			const TMAT Minv;
 
@@ -78,10 +79,11 @@ namespace Bezier{
 			BezierCurve(void);
 			~BezierCurve();
 
+			void controlPoint(const unsigned int i, TVEC& out) const {out = this->controlPoints.row(i);}
+
 			void fit(const TMAT&);
-			T curvatureAt(const TVEC&) const;
+			T curvatureAt(const double) const;
 			virtual void at(const double, TVEC&) const override;
-			virtual void point(const unsigned int, TVEC&) const override;
 	};
 }
 
