@@ -8,30 +8,28 @@
 
 #pragma once
 
-#include "factorials.hpp"
+#include "templates.hpp"
 #include "numeric.hpp"
 
 #include <cmath>
+#include <stdexcept>
+#include <sstream>
+
 
 namespace Bezier{
 
+
 	/**
 	 * @brief 
 	 * 
 	 * @tparam T 
-	 * @tparam DEGREE_ 
-	 * @tparam DIMS_ 
 	 */
-	template <typename T, int DEGREE_, unsigned int DIMS_>
-	class Curve_{
-		protected:
-			const unsigned int size;
-			Eigen::Matrix<T, DEGREE_, DIMS_> points;
+	template <typename T>
+	class ICurve{
 		public:
-			Curve_(const Eigen::Matrix<T, DEGREE_, DIMS_>* const, const unsigned int);
-			Curve_(const Eigen::Matrix<T, DEGREE_, DIMS_>* const);
-			~Curve_();
-			void at(const double, Eigen::Matrix<T, DIMS_, 1>&, const numeric::Factorial<T, DEGREE_>&) const;
+			virtual void at(const double, TVEC&) const = 0;
+			virtual void point(const unsigned int, TVEC&) const = 0;
+			virtual TMAT* getPoints(void) const = 0;
 	};
 
 
@@ -42,22 +40,49 @@ namespace Bezier{
 	 * @tparam DEGREE_ 
 	 * @tparam DIMS_ 
 	 */
-	template <typename T, int DEGREE_, unsigned int DIMS_>
-	class BezierCurve : public Curve_<T, DEGREE_, DIMS_>{
+	template <typename T, unsigned int DEGREE_, unsigned int DIMS_>
+	class DerivativeBezierCurve : public virtual ICurve<T>{
 		private:
-			Curve_* firstOrderDerivative, secondOrderDerivative;
-			const numeric::Factorial<long unsigned int, DEGREE_> factorials;
-			const Eigen::Matrix<long int, DIMS_, DIMS_> Minv;
-			cleanUpDerivativeCurves(void);
+			TMAT points;
+			const numeric::IIndexable<T>* const factorials;
 		public:
-			BezierCurve(const unsigned int);
+			DerivativeBezierCurve(const TMAT&, const numeric::IIndexable<T>* const);
+			~DerivativeBezierCurve();
+			virtual void at(const double, TVEC&) const override;
+			virtual void point(const unsigned int, TVEC&) const override;
+			virtual TMAT* getPoints(void) const override {return &this->points;}
+	};
+
+
+	/**
+	 * @brief 
+	 * 
+	 * @tparam T 
+	 * @tparam DEGREE_ 
+	 * @tparam DIMS_ 
+	 */
+	template <typename T, unsigned int DEGREE_, unsigned int DIMS_>
+	class BezierCurve : public virtual ICurve<T>{
+		private:
+			TMAT points;
+			ICurve<T>* firstOrderDerivative, secondOrderDerivative;
+			numeric::Factorial<long unsigned int, DEGREE_+1>* const factorials;
+			const TMAT Minv;
+
+			void cleanUpDerivativeCurves(void);
+
+			void computeTiValues(const TMAT&, TVEC&) const;
+			void TMatrixFromTiValues(const TVEC&, TMAT&) const;
+
+		public:
 			BezierCurve(void);
 			~BezierCurve();
 
-			void at(const double, Eigen::Matrix<T, DIMS_, 1>&) const;
-			void fit(const Eigen::Matrix<T, DEGREE_, DIMS_>&);
-			T curvatureAt(const Eigen::Matrix<T, DIMS_, 1>&) const;
-
-
+			void fit(const TMAT&);
+			T curvatureAt(const TVEC&) const;
+			virtual void at(const double, TVEC&) const override;
+			virtual void point(const unsigned int, TVEC&) const override;
 	};
 }
+
+#include "bezier_curve.tpp"
