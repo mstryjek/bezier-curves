@@ -18,6 +18,9 @@
 // Static assert a template value paramter is not zero. Will fail at compile-time if not
 #define TEMPLATE_NONZERO(V)     std::static_assert(V != 0 , "Template parameter must be positive!");
 
+// Static assert a call to a drawing function provides 2-dimensional points
+#define TEMPLATE_DRAWABLE(V)    std::static_assert(V == 2, "Call to template drawing function must be 2-dimensional!");
+
 // Shorthand definition for a typename-T Eigen 2D matrix
 #define TMAT   	                Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>
 

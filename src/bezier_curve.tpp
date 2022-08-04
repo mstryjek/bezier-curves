@@ -203,7 +203,7 @@ void Bezier::BezierCurve<T, DEGREE_, DIMS_>::fit(const TMAT& points)
 
 	this->cleanUpDerivativeCurves();
 	this->firstOrderDerivative  = new DerivativeBezierCurve<T, DEGREE_-1, DIMS_>(this->controlPoints,                             this->factorials);
-	this->secondOrderDerivative = new DerivativeBezierCurve<T, DEGREE_-2, DIMS_>(*this->firstOrderDerivative->getControlPoints(), this->factorials);
+	this->secondOrderDerivative = new DerivativeBezierCurve<T, DEGREE_-2, DIMS_>(*(this->firstOrderDerivative->getControlPoints()), this->factorials);
 }
 
 

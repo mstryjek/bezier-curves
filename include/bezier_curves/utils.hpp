@@ -20,8 +20,18 @@ namespace Bezier::utils{
 	void drawControlPoints(cv::Mat&, const BezierCurve<T, DEGREE_, DIMS_>&, const bool);
 
 	template <typename T>
-	void drawPoints(const TMAT&);
+	void drawPoints(cv::Mat&, const TMAT&);
 
+	/**
+	 * @brief Convert 2-dimensional point from an Eigen::Vector form to a cv::Point
+	 * 
+	 * @tparam T 
+	 * @param point Eigen::Vector with each element corresponding to the point's 
+	 * coordinate in a different orthogonal dimension. The point must be 2-dimensional
+	 * @return cv::Point_<T> 
+	 */
 	template <typename T>
-	cv::Point_<T> toCvPoint(const TVEC&);
+	inline cv::Point_<T> toCvPoint(const TVEC& point){
+		return cv::Point_<T>(point[0], point[1]);
+	}
 }
