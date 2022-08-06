@@ -28,7 +28,7 @@ namespace Bezier{
 	class IBaseBezierCurve{
 		public:
 			virtual void at(const double, TVEC&) const = 0;
-			virtual TMAT* getControlPoints(void) const = 0;
+			virtual const TMAT* const getControlPoints(void) const = 0;
 	};
 
 
@@ -43,15 +43,15 @@ namespace Bezier{
 	class DerivativeBezierCurve : public virtual IBaseBezierCurve<T>{
 		private:
 			TMAT controlPoints;
-			const numeric::IIndexable<T>* const factorials;
+			const numeric::IIndexable<long unsigned int>* const factorials;
 		public:
-			DerivativeBezierCurve(const TMAT&, const numeric::IIndexable<T>* const);
+			DerivativeBezierCurve(const TMAT&, const numeric::IIndexable<long unsigned int>* const);
 			~DerivativeBezierCurve();
 
 			void controlPoint(const unsigned int i, TVEC& out) const {out = this->controlPoints.row(i);}
 
 			virtual void at(const double, TVEC&) const override;
-			virtual TMAT* getControlPoints(void) const override {return &(this->controlPoints);}
+			virtual const TMAT* const getControlPoints(void) const override {return &(this->controlPoints);}
 	};
 
 
@@ -80,6 +80,8 @@ namespace Bezier{
 			~BezierCurve();
 
 			void controlPoint(const unsigned int i, TVEC& out) const {out = this->controlPoints.row(i);}
+
+			virtual const TMAT* const getControlPoints(void) const override {return &(this->controlPoints);}
 
 			void fit(const TMAT&);
 			T curvatureAt(const double) const;

@@ -47,7 +47,7 @@ namespace Bezier::numeric{
 	TMAT getMinv(const unsigned int);
 
 	template <typename T>
-	T dist(const TVEC&, const TVEC);
+	T dist(const TVEC&, const TVEC&);
 
 	template <typename T>
 	T magnitude(const TVEC&);

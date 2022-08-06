@@ -23,14 +23,14 @@
  */
 template <typename T, unsigned int MAX_>
 Bezier::numeric::Factorial<T, MAX_>::Factorial(void) 
-	: factorials_(Eigen::Matrix<T, Eigen::Dynamic, 1>(selectSize(DEGREE_, size), 1)), size(selectSize(DEGREE_, size))
+	: factorials_(Eigen::Matrix<T, Eigen::Dynamic, 1>(MAX_))
 {
-	TEMPLATE_INTEGRAL
+	TEMPLATE_ARITHMETIC(T)
 	TEMPLATE_NONZERO(MAX_)
 
 	this->factorials_[0] =  1;
 
-	for(unsigned int i=1; i<this->size; i++){
+	for(unsigned int i=1; i<MAX_; i++){
 		this->factorials_[i] =  this->factorials_[i-1] * i;
 	}}
 
@@ -85,7 +85,7 @@ TMAT Bezier::numeric::getMinv(){
 	for(unsigned int i=0; i<=DEGREE_; i++){
 		T rowFac = factorials[DEGREE_] / (T)(factorials[DEGREE_ - i] * factorials[i]);
 		for(unsigned int j=0; j<=DEGREE_-i; j++){
-			short int mul = (k + 1 + n)%2 == 0 ? 1 : -1;
+			short int mul = (i + 1 + j)%2 == 0 ? 1 : -1;
 			M(i, j) = rowFac * mul * factorials[DEGREE_-i] / (T)(factorials[DEGREE_ - i - j] * factorials[j]);
 		}
 	}
@@ -104,15 +104,15 @@ TMAT Bezier::numeric::getMinv(){
  * @return T 
  */
 template <typename T>
-T dist(const TVEC& start, const TVEC& end){
+T Bezier::numeric::dist(const TVEC& start, const TVEC& end){
 	TEMPLATE_ARITHMETIC(T)
 
-	T distance = 0;
+	T distance = 0.;
 	for(unsigned int i=0; i<start.rows() && i<end.rows(); i++){
 		distance += (end[i] - start[i])*(end[i] - start[i]);
 	}
-	return std::sqrt(distance);
 
+	return (T) std::sqrt(distance);
 }
 
 
@@ -124,7 +124,7 @@ T dist(const TVEC& start, const TVEC& end){
  * @return T 
  */
 template <typename T>
-T magnitude(const TVEC& vec){
+T Bezier::numeric::magnitude(const TVEC& vec){
 	TEMPLATE_ARITHMETIC(T)
 	ASSERT_NONZERO(vec.rows())
 

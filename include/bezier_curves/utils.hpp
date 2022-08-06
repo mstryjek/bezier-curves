@@ -32,6 +32,8 @@ namespace Bezier::utils{
 	 */
 	template <typename T>
 	inline cv::Point_<T> toCvPoint(const TVEC& point){
-		return cv::Point_<T>(point[0], point[1]);
+		return cv::Point_<T>(point(0), point(1));
 	}
 }
+
+#include "utils.tpp"

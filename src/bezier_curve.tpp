@@ -21,7 +21,8 @@
  * @param size
  */
 template <typename T, unsigned int DEGREE_, unsigned int DIMS_>
-Bezier::DerivativeBezierCurve<T, DEGREE_, DIMS_>::DerivativeBezierCurve(const TMAT& superPoints, const numeric::IIndexable<T>* const superFactorials)
+Bezier::DerivativeBezierCurve<T, DEGREE_, DIMS_>::DerivativeBezierCurve(const TMAT& superPoints, 
+	const numeric::IIndexable<long unsigned int>* const superFactorials)
 	: controlPoints(TMAT(DEGREE_+1, DIMS_)), factorials(superFactorials)
 {
 	TEMPLATE_NONZERO(DEGREE_)
@@ -29,7 +30,7 @@ Bezier::DerivativeBezierCurve<T, DEGREE_, DIMS_>::DerivativeBezierCurve(const TM
 	TEMPLATE_NONZERO(DIMS_)
 
 	for(unsigned int i=1; i<DEGREE_+1; i++){
-		this->controlPoints[i-1] = superPoints[i] - superPoints[i-1];
+		this->controlPoints(i-1) = superPoints(i) - superPoints(i-1);
 	}
 }
 
@@ -63,10 +64,10 @@ void Bezier::DerivativeBezierCurve<T, DEGREE_, DIMS_>::at(const double t, TVEC& 
 	for(unsigned int dim=0; dim<DIMS_; dim++){
 		T res =  0.;
 		for(unsigned int i=0; i<DEGREE_+1; i++){
-			res += *(this->factorials)[DEGREE_] / (*(this->factorials)[i] * *(this->factorials)[DEGREE_ - i]) *
+			res += (*(this->factorials))[DEGREE_] / ((*(this->factorials))[i] * ((*(this->factorials))[DEGREE_ - i])) *
 				std::pow(t, i) * std::pow(1.-t, DEGREE_ - 1 - i) * this->controlPoints(i, dim);
 		}
-		out[dim] = res;
+		out(dim) = res;
 	}
 }
 
@@ -142,7 +143,8 @@ void Bezier::BezierCurve<T, DEGREE_, DIMS_>::computeTiValues(const TMAT& points,
 	TVEC distances = TVEC::Zero(points.rows());
 
 	for(unsigned int i=1; i<points.rows(); i++){
-		distances[i] = numeric::dist(points.row(i), points.row(i-1) + distances[i-1]);
+		TVEC cur = points.row(i), prev = points.row(i-1);
+		distances[i] = numeric::dist(cur, prev) + distances[i-1];
 	}
 
 	for(unsigned int i=0; i<distances.rows(); i++){
@@ -202,7 +204,7 @@ void Bezier::BezierCurve<T, DEGREE_, DIMS_>::fit(const TMAT& points)
 	}
 
 	this->cleanUpDerivativeCurves();
-	this->firstOrderDerivative  = new DerivativeBezierCurve<T, DEGREE_-1, DIMS_>(this->controlPoints,                             this->factorials);
+	this->firstOrderDerivative  = new DerivativeBezierCurve<T, DEGREE_-1, DIMS_>(this->controlPoints,                               this->factorials);
 	this->secondOrderDerivative = new DerivativeBezierCurve<T, DEGREE_-2, DIMS_>(*(this->firstOrderDerivative->getControlPoints()), this->factorials);
 }
 
@@ -262,8 +264,8 @@ T Bezier::BezierCurve<T, DEGREE_, DIMS_>::curvatureAt(const double t) const
 
 	// From https://en.wikipedia.org/wiki/Radius_of_curvature#In_n_dimensions
 	T curvature  = std::fabs(
-		std::sqrt(mag1 * mag1 * mag2 * mag2 - (magDot * magDot))) / 
-			std::pow(mag1, 3.);
+		std::sqrt(mag1 * mag1 * mag2 * mag2 - (magDot * magDot)) / 
+			std::pow(mag1, 3.)
 	);
 
 	return curvature;

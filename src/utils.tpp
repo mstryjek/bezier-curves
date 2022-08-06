@@ -34,8 +34,8 @@ void Bezier::utils::drawBezierCurve(cv::Mat& img, const BezierCurve<T ,DEGREE_, 
 	std::vector<cv::Point_<T> > points; points.reserve(resolution + 1);
 
 	for(unsigned int i=0; i<=resolution; ++i){
-		TVEC point curve.at(double(i)/resolution);
-		points.push_back({point[0], point[1]});
+		TVEC point; curve.at(double(i)/resolution, point);
+		points.push_back(cv::Point_<T>(point[0], point[1]));
 	}
 
 	cv::polylines(img, points, false, color, thickness, cv::LINE_AA);
@@ -52,8 +52,8 @@ void Bezier::utils::drawBezierCurve(cv::Mat& img, const BezierCurve<T ,DEGREE_, 
  * @param curve 
  * @param connect 
  */
-template <typename T, unsigned int DEGREE_, unsinged int DIMS_>
-void Bezier::utils::drawControlPoints(cv::Mat& img, const BezierCurve<T ,DEGREE_, DIMS_>& curve, const bool connect)
+template <typename T, unsigned int DEGREE_, unsigned int DIMS_>
+void Bezier::utils::drawControlPoints(cv::Mat& img, const BezierCurve<T, DEGREE_, DIMS_>& curve, const bool connect)
 {
 	TEMPLATE_DRAWABLE(DIMS_)
 
@@ -64,10 +64,10 @@ void Bezier::utils::drawControlPoints(cv::Mat& img, const BezierCurve<T ,DEGREE_
 	const unsigned int lineThickness = 1;
 
 	for(unsigned int i=0; i<DEGREE_-1; ++i){
-		TVEC controlPoint = curve.controlPoint(i);
+		TVEC controlPoint; curve.controlPoint(i, controlPoint);
 
 		if(connect){
-			TVEC nextControlPoint = curve.controlPoint(i+1);
+			TVEC nextControlPoint; curve.controlPoint(i+1, nextControlPoint);
 			cv::line(img, {controlPoint[0], controlPoint[1]}, {nextControlPoint[0], nextControlPoint[1]}, lineColor, lineThickness, cv::LINE_AA);
 		}
 
@@ -94,7 +94,8 @@ void Bezier::utils::drawPoints(cv::Mat& img, const TMAT& points)
 	const int radius = 3;
 
 	for(unsigned int i=0; i<points.rows(); ++i){
-		cv::Point_<T> point = toCvPoint(points[i]);
+		TVEC pointEigen = points.row(i);
+		cv::Point_<T> point = toCvPoint(pointEigen);
 		cv::circle(img, point, radius, color, -1, cv::LINE_AA);
 	}
 }
