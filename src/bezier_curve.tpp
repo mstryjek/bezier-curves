@@ -169,7 +169,7 @@ void Bezier::BezierCurve<T, DEGREE_, DIMS_>::TMatrixFromTiValues(const TVEC& ti,
 	Tout = TMAT(ti.rows(), DEGREE_+1);
 
 	for(unsigned int i=0; i<ti.rows(); i++){
-		for(unsigned int exp=DEGREE_; exp>=0; exp--){
+		for(int exp=DEGREE_; exp>=0; exp--){
 			Tout(i, DEGREE_-exp) = std::pow(ti[i], exp);
 		}
 	}

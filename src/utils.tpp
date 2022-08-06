@@ -31,7 +31,7 @@ void Bezier::utils::drawBezierCurve(cv::Mat& img, const BezierCurve<T ,DEGREE_, 
 	const cv::Scalar color(0, 255, 0); // FIXME Better colors
 	const int thickness = 2;
 
-	std::vector<cv::Point_<T> > points; points.reserve(resolution + 1);
+	std::vector<cv::Point> points; points.reserve(resolution + 1);
 
 	for(unsigned int i=0; i<=resolution; ++i){
 		TVEC point; curve.at(double(i)/resolution, point);
