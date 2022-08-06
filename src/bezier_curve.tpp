@@ -168,8 +168,8 @@ void Bezier::BezierCurve<T, DEGREE_, DIMS_>::TMatrixFromTiValues(const TVEC& ti,
 {
 	Tout = TMAT(ti.rows(), DEGREE_+1);
 
-	for(unsigned int i=0; i<ti.rows(); i++){
-		for(int exp=DEGREE_; exp>=0; exp--){
+	for(unsigned int i=0; i<ti.rows(); ++i){
+		for(int exp=DEGREE_; exp>=0; --exp){
 			Tout(i, DEGREE_-exp) = std::pow(ti[i], exp);
 		}
 	}
@@ -197,7 +197,7 @@ void Bezier::BezierCurve<T, DEGREE_, DIMS_>::fit(const TMAT& points)
 
 	this->controlPoints = TMAT(DEGREE_+1, DIMS_);
 
-	TMAT rhs = (this->Minv * ((T_.transpose() * T_).inverse())) * T_.transpose();
+	TMAT rhs = ( this->Minv * ((T_.transpose() * T_).inverse()) ) * T_.transpose();
 
 	for(unsigned int dim=0; dim<DIMS_; dim++){
 		this->controlPoints.col(dim) = rhs * points.col(dim);

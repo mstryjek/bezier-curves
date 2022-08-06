@@ -108,7 +108,7 @@ T Bezier::numeric::dist(const TVEC& start, const TVEC& end){
 	TEMPLATE_ARITHMETIC(T)
 
 	T distance = 0.;
-	for(unsigned int i=0; i<start.rows() && i<end.rows(); i++){
+	for(unsigned int i=0; i<start.rows() && i<end.rows(); ++i){
 		distance += (end[i] - start[i])*(end[i] - start[i]);
 	}
 
