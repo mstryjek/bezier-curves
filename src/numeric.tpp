@@ -1,12 +1,8 @@
 /**
- * @file factorials.tpp
- * @author your name (you@domain.com)
- * @brief 
- * @version 0.1
+ * @file numeric.tpp
+ * @author mstryjek
+ * @brief Template implementations of extra numeric functions.
  * @date 2022-07-21
- * 
- * @copyright Copyright (c) 2022
- * 
  */
 
 #pragma once
@@ -16,7 +12,7 @@
 
 
 /**
- * @brief Construct a new Bezier::numeric::Factorial<T, MAX_>::Factorial object
+ * @brief Calculate internal factorials.
  * 
  * @tparam T 
  * @tparam MAX_ 
@@ -39,17 +35,15 @@ Bezier::numeric::Factorial<T, MAX_>::Factorial(void)
 
 
 /**
- * @brief Destroy the Bezier::numeric::Factorial<T, MAX_>::Factorial object
- * 
- * @tparam T 
- * @tparam MAX_ 
+ * @brief Default constructor.
  */
 template <typename T, unsigned int MAX_>
 Bezier::numeric::Factorial<T, MAX_>::~Factorial(void){
 }
 
+
 /**
- * @brief 
+ * @brief Get the precalculated factorial of a value.
  * 
  * @tparam T 
  * @tparam MAX_ 

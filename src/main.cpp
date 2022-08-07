@@ -1,3 +1,10 @@
+/**
+ * @file main.cpp
+ * @author mstryjek
+ * @brief File showing example usage of the curves, fitting and visualizations
+ * @date 2022-08-07
+ */
+
 #include "bezier_curves/bezier_curve.hpp"
 #include "bezier_curves/utils.hpp"
 
