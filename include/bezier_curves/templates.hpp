@@ -34,7 +34,7 @@
 
 // Runtime assert the given matrix has the given number of dimensions (number of columns is considered to be dimensions). Throws a runtime exception if violated
 #define ASSERT_DIMS(PTS, DIM) if(PTS.cols() != DIM){char errmsg[100]; \
-								sprintf(errmsg, "Point matrix has incorrect dimensionality: expected %u, got %u", DIMS_, points.cols()); \
+								sprintf(errmsg, "Point matrix has incorrect dimensionality: expected %u, got %lu", DIMS_, points.cols()); \
 								throw std::invalid_argument(errmsg);}
 
 // Runtime assert a value is not zero. Throws a runtime exception if violated

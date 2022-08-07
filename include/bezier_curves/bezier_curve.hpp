@@ -87,6 +87,29 @@ namespace Bezier{
 			T curvatureAt(const double) const;
 			virtual void at(const double, TVEC&) const override;
 	};
+
+	// Template shorthands
+	// Float-precision cubic curves
+	using CubicBezierCurve2f = BezierCurve<float, 3, 2>;
+	using CubicBezierCurve3f = BezierCurve<float, 3, 3>;
+	// Double-precision cubic curves
+	using CubicBezierCurve2d = BezierCurve<double, 3, 2>;
+	using CubicBezierCurve3d = BezierCurve<double, 3, 3>;
+
+	// Float-precision quartic curves
+	using QuarticBezierCurve2f = BezierCurve<float, 4, 2>;
+	using QuarticBezierCurve3f = BezierCurve<float, 4, 3>;
+	// Double-precision quartic curves
+	using QuarticBezierCurve2d = BezierCurve<double, 4, 2>;
+	using QuarticBezierCurve3d = BezierCurve<double, 4, 3>;
+
+	// Float-precision quintic curves
+	using QuinticBezierCurve2f = BezierCurve<float, 5, 2>;
+	using QuinticBezierCurve3f = BezierCurve<float, 5, 3>;
+	// Double-precision quintic curves
+	using QuinticBezierCurve2d = BezierCurve<double, 5, 2>;
+	using QuinticBezierCurve3d = BezierCurve<double, 5, 3>;
+
 }
 
 #include "bezier_curve.tpp"

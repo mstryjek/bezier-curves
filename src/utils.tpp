@@ -69,13 +69,11 @@ void Bezier::utils::drawControlPoints(cv::Mat& img, const BezierCurve<T, DEGREE_
 
 		if(connect){
 			TVEC nextControlPoint; curve.controlPoint(i+1, nextControlPoint);
-			cv::line(img, {controlPoint[0], controlPoint[1]}, {nextControlPoint[0], nextControlPoint[1]}, lineColor, lineThickness, cv::LINE_AA);
+			cv::line(img, {int(controlPoint[0]), int(controlPoint[1])}, {int(nextControlPoint[0]), int(nextControlPoint[1])}, lineColor, lineThickness, cv::LINE_AA);
 		}
 
-		cv::circle(img, {controlPoint[0], controlPoint[1]}, pointRadius, pointColor, -1, cv::LINE_AA);
+		cv::circle(img, cv::Point(controlPoint[0], controlPoint[1]), pointRadius, pointColor, -1, cv::LINE_AA);
 	}
-	// FIXME Last control point may or may not be missing, check later
-	// Also last line?
 }
 
 

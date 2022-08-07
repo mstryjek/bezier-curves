@@ -197,7 +197,10 @@ void Bezier::BezierCurve<T, DEGREE_, DIMS_>::fit(const TMAT& points)
 
 	this->controlPoints = TMAT(DEGREE_+1, DIMS_);
 
-	TMAT rhs = ( this->Minv * ((T_.transpose() * T_).inverse()) ) * T_.transpose();
+	// HACK I must've missed a (-1) somewhere in the math, but putting it here for a quick fix
+	// Will work as intended
+	short int mul = DEGREE_%2 == 0? -1 : 1;
+	TMAT rhs = mul * ( this->Minv * ((T_.transpose() * T_).inverse()) ) * T_.transpose();
 
 	for(unsigned int dim=0; dim<DIMS_; dim++){
 		this->controlPoints.col(dim) = rhs * points.col(dim);
@@ -255,8 +258,8 @@ T Bezier::BezierCurve<T, DEGREE_, DIMS_>::curvatureAt(const double t) const
 
 	using namespace numeric;
 
-	TVEC firstDerivative  = this->firstOrderDerivative->at(t);
-	TVEC secondDerivative = this->secondOrderDerivative->at(t);
+	TVEC firstDerivative; this->firstOrderDerivative->at(t, firstDerivative);
+	TVEC secondDerivative; this->secondOrderDerivative->at(t, secondDerivative);
 
 	T mag1 = magnitude(firstDerivative);
 	T mag2 = magnitude(secondDerivative);
