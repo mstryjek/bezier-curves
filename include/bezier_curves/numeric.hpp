@@ -1,7 +1,7 @@
 /**
- * @file factorials.h
- * @author your name (you@domain.com)
- * @brief
+ * @file numeric.hpp
+ * @author mstryjek
+ * @brief Extra numeric functions for Bezier curve fitting, not encapsulated in Bezier curve classes
  * @date 2022-07-19
  */
 
@@ -9,7 +9,7 @@
 
 #include <Eigen/Dense>
 
-#include "templates.hpp"
+#include "macros.hpp"
 
 namespace Bezier::numeric{
 
@@ -27,14 +27,18 @@ namespace Bezier::numeric{
 
 
 	/**
-	 * @brief 
+	 * @brief Factorial table class, for a precalculated array of factorials. This is because there are many
+	 * factorials calculated during the evaluation of a Bezier curve. Memory complexity of this object is O(N), and 
+	 * instantiation time complexity is O(N), N being `MAX_`, but every subsequent lookup (factorial "computation") is O(1)
 	 * 
-	 * @tparam T 
-	 * @tparam MAX_ 
+	 * @tparam T Any integral type
+	 * @tparam MAX_ Maximum number, whose factorial is stored in the object
 	 */
 	template <typename T, unsigned int MAX_>
 	class Factorial : public virtual IIndexable<T>{
 		private:
+			/// MAX_-long vector (MAX_x1 matrix) of numbers, with the value under each index corresponding to that
+			/// index' factorial (e.g. factorials_[0] is 1, factorials_[4] is 24)
 			TVEC factorials_;
 		public:
 			Factorial();

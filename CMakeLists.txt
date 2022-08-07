@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(bezier_curves)
 
+## Useful for debugging
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 
 find_package(OpenCV REQUIRED)
@@ -19,4 +20,3 @@ target_link_libraries(main
 	${OpenCV_LIBRARIES}
 	Eigen3::Eigen	
 )
-

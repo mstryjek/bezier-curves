@@ -1,7 +1,7 @@
 /**
  * @file utils.hpp
- * @author your name (you@domain.com)
- * @brief
+ * @author mstryjek
+ * @brief Drawing utility functions and functions for bridging Eigen's linalg objects with OpenCV's matrix/point types
  * @date 2022-07-25
  */
 
@@ -25,10 +25,10 @@ namespace Bezier::utils{
 	/**
 	 * @brief Convert 2-dimensional point from an Eigen::Vector form to a cv::Point
 	 * 
-	 * @tparam T 
+	 * @tparam T Any arithmetic type
 	 * @param point Eigen::Vector with each element corresponding to the point's 
-	 * coordinate in a different orthogonal dimension. The point must be 2-dimensional
-	 * @return cv::Point_<T> 
+	 * coordinate in a different orthogonal dimension. The point must be 2-dimensional, otherwise this function will not compile
+	 * @return cv::Point_<T> with x=point[0], y=point[1]
 	 */
 	template <typename T>
 	inline cv::Point_<T> toCvPoint(const TVEC& point){

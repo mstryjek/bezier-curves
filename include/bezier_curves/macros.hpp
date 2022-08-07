@@ -1,7 +1,7 @@
 /**
- * @file templates.hpp
- * @author your name (you@domain.com)
- * @brief
+ * @file macros.hpp
+ * @author mstryjek
+ * @brief Useful macros for template argument and functino/method argument evalution
  * @date 2022-07-21
  */
 
@@ -15,8 +15,11 @@
 // Static assert a template typename parameter is arithmetic. Will fail at compile-time if not
 #define TEMPLATE_ARITHMETIC(T) static_assert(std::is_arithmetic<T>::value, "Template type must be arithmetic!");
 
-// Static assert a template value paramter is not zero. Will fail at compile-time if not
+// Static assert a template value paramter is not zero. Will fail at compile-time if is zero
 #define TEMPLATE_NONZERO(V) static_assert(V != 0 , "Template parameter must be positive!");
+
+// Static assert a template value paramter is not negative. Will fail at compile-time if it is
+#define TEMPLATE_NONNEGATIVE(V) static_assert(V >= 0 , "Template parameter must be non-negative!");
 
 // Static assert a call to a drawing function provides 2-dimensional points
 #define TEMPLATE_DRAWABLE(V) static_assert(V == 2, "Call to template drawing function must be 2-dimensional!");
