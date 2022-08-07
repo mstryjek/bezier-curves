@@ -227,9 +227,9 @@ void Bezier::BezierCurve<T, DEGREE_, DIMS_>::at(const double t, TVEC& out) const
 
 	for(unsigned int dim=0; dim<DIMS_; dim++){
 		T res =  0.;
-		for(unsigned int i=0; i<DEGREE_+1; i++){
+		for(unsigned int i=0; i<=DEGREE_; i++){
 			res += (*this->factorials)[DEGREE_] / ((*this->factorials)[i] * (*this->factorials)[DEGREE_ - i]) *
-				std::pow(t, i) * std::pow(1.-t, DEGREE_ - 1 - i) * this->controlPoints(i, dim);
+				std::pow(t, i) * std::pow(1.-t, DEGREE_ - i) * this->controlPoints(i, dim);
 		}
 		out[dim] = res;
 	}
