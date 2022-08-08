@@ -18,6 +18,9 @@
 // Static assert a template value paramter is not zero. Will fail at compile-time if is zero
 #define TEMPLATE_NONZERO(V) static_assert(V != 0 , "Template parameter must be positive!");
 
+// Static assert a template value parameter is greater than 1. Will fail at compile-time if not
+#define TEMPLATE_SIZE_V(V) static_assert(V > 1, "Size template paramter must be greater than 1!")
+
 // Static assert a template value paramter is not negative. Will fail at compile-time if it is
 #define TEMPLATE_NONNEGATIVE(V) static_assert(V >= 0 , "Template parameter must be non-negative!");
 

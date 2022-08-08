@@ -1,6 +1,14 @@
 # bezier-curves
 C++ classes and functions for fitting Bezier curves of any degree to a set of points.
 
+
+
+## A note about file extensions
+
+
+## Limitations
+
+
 ## TODO
 - [ ] Python version
 - [ ] Docstrings
