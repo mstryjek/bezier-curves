@@ -22,6 +22,7 @@ int main()
 		300., 230.,
 		400., 100.;
 
+
 	cv::Mat img = cv::Mat::zeros({640, 480}, CV_8UC3);
 	img.setTo(cv::Scalar(255, 255, 255));
 
