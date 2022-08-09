@@ -1,1 +1,0 @@
-from .bezier import BezierCurve

@@ -33,7 +33,7 @@ void Bezier::utils::drawBezierCurve(cv::Mat& img, const BezierCurve<T, DEGREE_, 
 {
 	TEMPLATE_DRAWABLE(DIMS_)
 
-	const cv::Scalar color(0, 255, 0); // FIXME Better colors
+	const cv::Scalar color(217, 202, 74);
 	const int thickness = 2;
 
 	std::vector<cv::Point> points; points.reserve(resolution + 1);
@@ -69,10 +69,9 @@ void Bezier::utils::drawControlPoints(cv::Mat& img, const BezierCurve<T, DEGREE_
 {
 	TEMPLATE_DRAWABLE(DIMS_)
 
-	// FIXME Better colors
-	const cv::Scalar pointColor(255, 0, 0);
-	const cv::Scalar lineColor(0, 0, 255);
-	const unsigned int pointRadius = 3;
+	const cv::Scalar pointColor(175, 59, 217);
+	const cv::Scalar lineColor(217, 148, 242);
+	const unsigned int pointRadius = 2;
 	const unsigned int lineThickness = 1;
 
 	for(unsigned int i=0; i<DEGREE_; ++i){
@@ -87,6 +86,9 @@ void Bezier::utils::drawControlPoints(cv::Mat& img, const BezierCurve<T, DEGREE_
 
 		cv::circle(img, cv::Point(controlPoint[0], controlPoint[1]), pointRadius, pointColor, -1, cv::LINE_AA);
 	}
+
+	TVEC controlPoint; curve.controlPoint(DEGREE_, controlPoint);
+	cv::circle(img, cv::Point(controlPoint[0], controlPoint[1]), pointRadius, pointColor, -1, cv::LINE_AA);
 }
 
 
@@ -97,7 +99,7 @@ void Bezier::utils::drawControlPoints(cv::Mat& img, const BezierCurve<T, DEGREE_
  *
  * @tparam T Matrix type. Supports any arithmetic type
  * @param img Image to draw the points on
- * @param points Matrix representing 
+ * @param points Matrix representing
  * @warning Although this function will accept point of any dimensionality,
  * only the first 2 dimensions of points will be used as the `x` and `y` coordinates.
  * @warning Color & other drawing parameters are hardcoded in this function, since it's
@@ -106,8 +108,7 @@ void Bezier::utils::drawControlPoints(cv::Mat& img, const BezierCurve<T, DEGREE_
 template <typename T>
 void Bezier::utils::drawPoints(cv::Mat& img, const TMAT& points)
 {
-	// FIXME Tune values
-	const cv::Scalar color(255, 0, 0);
+	const cv::Scalar color(191, 27, 79);
 	const int radius = 3;
 
 	for(unsigned int i=0; i<points.rows(); ++i){

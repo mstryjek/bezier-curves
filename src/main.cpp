@@ -25,7 +25,7 @@ int main()
 	cv::Mat img = cv::Mat::zeros({640, 480}, CV_8UC3);
 	img.setTo(cv::Scalar(255, 255, 255));
 
-	BezierCurve<double, 2, 2> curve;
+	CubicBezierCurve2d curve;
 
 	curve.fit(points);
 

@@ -11,9 +11,8 @@ C++ classes and functions for fitting Bezier curves of any degree to a set of po
 
 ## TODO
 - [ ] README
-- [ ] Eventually, python version
-- [ ] Nicer drawing colors
 - [ ] GIF in README (cubic + quartic curves in one GIF)
+- [X] Nicer drawing colors
 - [X] Enable 0-dimensional Bezier curves to allow for fitting quadratic curves and calculating their curvature
 - [X] Docstrings
 - [X] Compilation warnings
