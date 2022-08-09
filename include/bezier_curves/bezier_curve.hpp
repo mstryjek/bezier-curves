@@ -42,7 +42,7 @@ namespace Bezier{
 	 * @tparam DIMS_ Dimensionality of the Bezier curve. Obviously must be nonzero. Supports one-dimensional curves, though
 	 * they don't have an obvious interpretation (they might be useful for interpolation, e.g. for animations)
 	 */
-	template <typename T, unsigned int DEGREE_, unsigned int DIMS_>
+	template <typename T, int DEGREE_, unsigned int DIMS_>
 	class DerivativeBezierCurve : public virtual IBaseBezierCurve<T>{
 		private:
 			/// (DEGREE_+1)xDIMS_ matrix (vector if DIMS_==1) holding control points for this curve
@@ -110,6 +110,13 @@ namespace Bezier{
 	};
 
 	// Template shorthands
+	
+	// Float-precision quadratic curves
+	using QuadraticBezierCurve2f = BezierCurve<float, 2, 2>;
+	using QuadraticBezierCurve3f = BezierCurve<float, 2, 3>;
+	// Double-precision quadratic curves
+	using QuadraticBezierCurve2d = BezierCurve<double, 2, 2>;
+	using QuadraticBezierCurve3d = BezierCurve<double, 2, 3>;
 
 	// Float-precision cubic curves
 	using CubicBezierCurve2f = BezierCurve<float, 3, 2>;

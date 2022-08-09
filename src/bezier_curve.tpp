@@ -20,11 +20,11 @@
  * @param superPoints Parent curve's control points
  * @param superFactorials Pointer to external factorial table object, since there is no need to instantiate another one
  */
-template <typename T, unsigned int DEGREE_, unsigned int DIMS_>
+template <typename T, int DEGREE_, unsigned int DIMS_>
 Bezier::DerivativeBezierCurve<T, DEGREE_, DIMS_>::DerivativeBezierCurve(const TMAT& superPoints, const numeric::IIndexable<long unsigned int>* const superFactorials)
 	: controlPoints(TMAT(DEGREE_+1, DIMS_)), factorials(superFactorials)
 {
-	TEMPLATE_NONZERO(DEGREE_)
+	TEMPLATE_NONNEGATIVE(DEGREE_)
 	TEMPLATE_ARITHMETIC(T)
 	TEMPLATE_NONZERO(DIMS_)
 
@@ -39,7 +39,7 @@ Bezier::DerivativeBezierCurve<T, DEGREE_, DIMS_>::DerivativeBezierCurve(const TM
 /**
  * @brief Default destructor
  */
-template <typename T, unsigned int DEGREE_, unsigned int DIMS_>
+template <typename T, int DEGREE_, unsigned int DIMS_>
 Bezier::DerivativeBezierCurve<T, DEGREE_, DIMS_>::~DerivativeBezierCurve(){
 }
 
@@ -50,7 +50,7 @@ Bezier::DerivativeBezierCurve<T, DEGREE_, DIMS_>::~DerivativeBezierCurve(){
  * @param t Value of `t` to evaluate at. Must be between 0 and 1
  * @param out Reference to output Eigen::Vector, containing the resulting point. Will be overwritten
  */
-template <typename T, unsigned int DEGREE_, unsigned int DIMS_>
+template <typename T, int DEGREE_, unsigned int DIMS_>
 void Bezier::DerivativeBezierCurve<T, DEGREE_, DIMS_>::at(const double t, TVEC& out) const
 {
 	ASSERT_NORMALIZED(t)
@@ -61,7 +61,7 @@ void Bezier::DerivativeBezierCurve<T, DEGREE_, DIMS_>::at(const double t, TVEC& 
 		T res =  0.;
 		for(unsigned int i=0; i<DEGREE_+1; i++){
 			res += (*(this->factorials))[DEGREE_] / ((*(this->factorials))[i] * ((*(this->factorials))[DEGREE_ - i])) *
-				std::pow(t, i) * std::pow(1.-t, DEGREE_ - 1 - i) * this->controlPoints(i, dim);
+				std::pow(t, i) * std::pow(1.-t, DEGREE_ - i) * this->controlPoints(i, dim);
 		}
 		out(dim) = res;
 	}
