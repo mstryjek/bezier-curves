@@ -73,7 +73,6 @@ You may notice that most source code files have the `.tpp` extension. This is me
 Some text editors may not be able to associate these files with C++ at first. In Visual Studio Code, add:
 ```json
 "files.associtations": {
-	...,
 	"*.tpp": "cpp"
 }
 
